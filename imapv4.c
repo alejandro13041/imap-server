@@ -1,13 +1,17 @@
 /*
 *
-*	rfc: 2060
+*	rfc: 2060 implement software 
+*	copyright: 6/05/2024
 *
+*	CHANGE: function fetch becuase with switch case dont work
+*	because is necesary that parameter convert in const case 
 *
 */
-#include <stdio.h>
-#include "imapv4.h"
 
-esp_err_t CAPABILITY(){
+#include <stdio.h>
+#include "include/imapv4.h"
+
+bool CAPABILITY(){
 
 	switch(state){
 
@@ -25,43 +29,43 @@ esp_err_t CAPABILITY(){
 
 	 }
 
-	return ESP_OK; 
+	return true; 
 
  } 
 
-esp_err_t NOOP(){
+bool NOOP(){
 
-	return ESP_OK;
-
- }
-esp_err_t LOGOUT(){
+	return true;
 
  }
-esp_err_t AUTENTICATE(){
+bool LOGOUT(){
 
  }
-esp_err_t LOGIN(char* user,char* pass){
+bool AUTENTICATE(){
+
+ }
+bool LOGIN(char* user,char* pass){
 
 	for (int id = 0; id < size_users; id++){
 
 		if (strcmp(user,users[id]) == 0 && strcmp(pass,passwords[id]) == 0){
 
-			return ESP_OK;
+			return true;
 
 		 }
 
 	 } 
 
-	return ESP_NO;
+	return false;
 
  }
-esp_err_t CREATE(char* mailbox){
+bool CREATE(char* mailbox){
 
 	for (int id = 0; id < num_mailbox; id++){
 		
 		if (strcmp(mailbox,mailboxs[id]) == 0){ //si  existe
  
-			return ESP_NO;			
+			return false;			
 
 		 }
 
@@ -72,16 +76,16 @@ esp_err_t CREATE(char* mailbox){
 	//malloc();
 
 	printf("Creation complete");
-	return ESP_OK;
+	return true;
 
  }
-esp_err_t DELETE(char* mailbox){
+bool DELETE(char* mailbox){
 
 	for (int id = 0; id < num_mailbox; id++){
 
 		if (strcmp(mailbox,mailboxs[id]) != 0){  //si no existe
 
-			return ESP_NO;
+			return false;
 
 		 }
 
@@ -90,16 +94,16 @@ esp_err_t DELETE(char* mailbox){
 	/*Implement delete of mailbox*/ 
 
 	printf("Creation complete");
-	return ESP_OK;
+	return true;
  }
-esp_err_t RENAME(char* mailbox, new_name){
+bool RENAME(char* mailbox, new_name){
 
 	for (int id = 0; id < num_mailbox; id++){
 
 		/* si no existe el buzon o si el nombre ya existe */
 		if (strcmp(mailbox, mailboxs[id]) != 0 && strcmp(new_name, mailboxs[id]) == 0){ 
 
-			return ESP_NO;
+			return false;
 
 		 }
 
@@ -107,11 +111,11 @@ esp_err_t RENAME(char* mailbox, new_name){
 
 	 /*implement rename of mailbox */
 	 printf("rename complete\n");
-	 return ESP_OK;
+	 return true;
 
  }
 
-esp_err_t SUBSCRIBE(char* mailbox){
+bool SUBSCRIBE(char* mailbox){
 
 	/*listar servidores de correo suscritos*/
 	LSUB();
@@ -128,12 +132,12 @@ esp_err_t SUBSCRIBE(char* mailbox){
 
 	/* subscribe list*/ 
  	printf("subscribe complete\n");
-	return ESP_OK;
+	return true;
 
  }
 
 
-esp_err_t UNSUBSCRIBE(char* mailbox){
+bool UNSUBSCRIBE(char* mailbox){
 
 	/*listar servidores de correo suscritos*/
 	LSUB();
@@ -150,29 +154,29 @@ esp_err_t UNSUBSCRIBE(char* mailbox){
 
 	/* unsubscribe list*/ 
  	printf("unsubscribe complete\n");
-	return ESP_OK;
+	return true;
 
  } 
 
-esp_err_t LIST(char* flags, char* possible_mailbox){
+bool LIST(char* flags, char* possible_mailbox){
 
 	/*implement algorithm to search possibles mailboxs*/
 
  } 
 
-esp_err_t SELECT(char* mailbox){
+bool SELECT(char* mailbox){
 
 	int num = EXIST();
 	printf("[mailbox] %d mails on %s",num,mailbox);
 
-	return ESP_OK;
+	return true;
 
  }
-esp_err_t SEARCH(char* charset[]){
+bool SEARCH(char* charset){
 
 	switch(charset){
 
-		case "ALL":
+		case 'ALL':
 
 			for (int id = 0; id < size_mailbox; id++){
 
@@ -443,48 +447,94 @@ esp_err_t SEARCH(char* charset[]){
 	 }
 
  }
-esp_err_t FETCH(){
+bool FETCH(char* messages[],){
 
-	switch(){
+	int value;
 
-		case "ALL":
-		case "BODY":
-		case "BODY.PEEK":
-		case "BODYSTRUCTURE":
-		case "ENVELOPE":
-		case "FAST":
-		case "FLAGS":
-		case "FULL":
-		case "INTERNALDATE":
-		case "UID":
-		default: printf("ERROR:");
+	if(strcmp(value,"ALL"){
+
+
+
+	 }
+	if(strcmp(value,"BODY"){
+
+	 }
+	if(strcmp(value,"BODY.PEEK"){
+
+	 }
+	if(strcmp(value,"BODYSTRUCTURE"){
+
+	 }
+	if(strcmp(value,"ENVELOPE"){
+
+	 }
+	if(strcmp(value,"FAST"){
+
+	 }
+	if(strcmp(value,"FLAGS"){
+
+	 }
+	if(strcmp(value,"FULL"){
+
+	 }
+	if(strcmp(value,"INTERNALDATE"){
+
+
+
+	 }
+	if(strcmp(value,"UID"){
+
+	 }
+	else{
+
+		printf("ERROR:"); 
 
 	 }
 
-
+ }
+bool COPY(){
 
  }
-esp_err_t COPY(){
-
- }
-esp_err_t UID(char* commands[]){
+bool UID(char* commands[]){
 
 
 
  }
-esp_err_t STATUS(char* mailbox,char* state){
+bool STATUS(char* mailbox,char* state){
 
 	if (strcmp(state,"MESSAGES")){
 
-		/* code */
+		printf("%d",mailbox.size);
+
 	 }
+
 	if (strcmp(state,"RECENT")){
 	
-		/* code */
+		int n = 0;
+
+		for (int id = 0; id < size_mailbox; id++){
+
+			if (mailbox.messages[id].flags.recent == true){
+
+				n++;
+
+		 	 }
+
+		 }
+
+		printf("%d", n); 
+
 	 }
+
 	if (strcmp(state,"UIDNEXT")){
 		
-		/* code */
+		/* no tengo idea de como implementarlo */
+
+		int value;
+
+
+
+		printf("%d\n", value);
  	 }
 	if (strcmp(state,"UIDVALIDITY")){
 		
@@ -492,55 +542,136 @@ esp_err_t STATUS(char* mailbox,char* state){
 	 }
 	if (strcmp(state,"UNSEEN")){
 		
-		/* code */
+		int n = 0;
+
+		for (int id = 0; id < size_mailbox; id++){
+
+			if (mailbox.messages[id].flags.seen == false){
+
+				n++;
+
+		 	 }
+
+		 }
+
+		printf("%d", n);
+
 	 }
 
-	 return ESP_OK;
+	 return true;
 
  }
 
-esp_err_t STORE(char* messages[],char* name_element,char* value){
+bool STORE(char* messages,char* name_element,char* value){
 
-	switch(name_element){
+	int lower_message;
+	int upper_message;
 
-		case "FLAGS":
+	lower_message = messages[0];
+	upper_message = messages[2];
 
-			switch(value){
+	if (lower_message < 1 || upper_message > size_mailbox){
 
-				case "/Seen":
-				case "/Answered":
-				case "/Flagged":
-				case "/Deleted":
-				case "/Recent":
-				case "/Draft":
-				default: printf("error\n");
+		printf("S: error with rank of messages\n");
+		return false;
 
-			 }
+	 }
 
-		case "FLAGS.SILENT":
+	if ("FLAGS"){
 
-			switch(value){
+		if(strcmp(value, "/Seen"){
 
-				case "/Seen":
-				case "/Answered":
-				case "/Flagged":
-				case "/Deleted":
-				case "/Recent":
-				case "/Draft":
-				default: printf("error\n");
+			for (int id = 0; id < ; id++){
+
+				/* code */
 
 			 }
 
+		 }
+
+		if(strcmp(value, "/Answered"){
+
+			/* code */
+
+		 }
+		if(strcmp(value, "/Flagged"){
+
+			/* code */
+
+		 }
+		if(strcmp(value, "/Deleted"){
+
+			/* code */
+
+		 }
+		if(strcmp(value, "/Recent"){
+
+			/* code */
+
+		 }
+
+		if(strcmp(value, "/Draft"){
+
+			/* code */
+
+		 }
+		else{ 
+
+			printf("error\n"); 
+
+		 }
+
+	 } 
+
+	if("FLAGS.SILENT"){
+
+		if(strcmp(value,"/Seen"){
+
+			/* code */
+
+		 }
+		if(strcmp(value,"/Answered"){
+
+			/* code */
+
+		 }
+		if(strcmp(value,"/Flagged"){
+
+			/* code */
+
+		 }
+		if(strcmp(value,"/Deleted"){
+
+			/* code */
+
+		 }
+		if(strcmp(value,"/Recent"){
+
+			/* code */
+
+		 }
+		if(strcmp(value,"/Draft"){
+
+			/* code */
+
+		 }
+		else{ 
+
+			printf("error\n");
+
+	     }
+		 
+     }
 		case "+FLAGS":
 
 			switch(value){
 
-				case "/Seen":
-				case "/Answered":
-				case "/Flagged":
-				case "/Deleted":
-				case "/Recent":
-				case "/Draft":
+				if(strcmp(value,"/Seen":
+				if(strcmp(value,"/Answered":
+				if(strcmp(value,"/Flagged":
+				if(strcmp(value,"/Deleted":
+				if(strcmp(value,"/Recent":
+				if(strcmp(value,"/Draft":
 				default: printf("error\n");
 
 			 }
@@ -595,6 +726,54 @@ esp_err_t STORE(char* messages[],char* name_element,char* value){
 
  } 
 
+bool APPEND(char* mailbox, char* flags, ){
+
+
+
+
+ }
+
+bool CHECK(){
+
+
+
+	return true;
+
+ }  
+
+bool CLOSE(){
+
+	for (int id = 0; id < size_mailbox; id++){
+
+		if (mailbox.messages[id].flags.deleted == true){
+
+			/* borrar estos mensajes */
+
+		 }
+				
+	 }
+
+	strcpy(mailbox.state,"authenticate");
+
+	return true;
+
+ } 
+
+bool EXPUNGE(){
+
+	for (int id = 0; id < size_mailbox; id++)
+	{
+		if (mailbox.messages[id].flags.deleted == true){
+
+			/*borrar estos mensajes*/
+			printf("S: *%d EXPUNGE\r\n", id);
+
+		 }
+	}
+
+	printf("S: OK EXPUNGE completed %s",)
+
+ }
 void func(void){
 
 
@@ -611,4 +790,11 @@ void func(void){
 
 	 }
 
+ }
+
+int main(void){
+
+	func();
+
+	return 0;
  }
